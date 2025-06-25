@@ -1,7 +1,21 @@
 import { useState } from "react";
 
-export default function ColorForm() {
-  const [colorInputs, setColorInputs] = useState([]);
+export default function ColorForm({ onAddColor }) {
+  const [hexValue, setHexValue] = useState("");
+
+  const [contrastTextValue, setContrastTextValue] = useState("");
+
+  function handleContrastTextChange(e) {
+    setContrastTextValue(e.target.value);
+
+    console.log(contrastTextValue);
+  }
+
+  function handleHexChange(e) {
+    setHexValue(e.target.value);
+
+    console.log(hexValue);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -9,11 +23,7 @@ export default function ColorForm() {
     const data = new FormData(e.target);
     const dataObject = Object.fromEntries(data.entries());
 
-    console.log("Data:", dataObject);
-
-    setColorInputs((prev) => [...prev, dataObject]);
-
-    console.log("Data in State :", colorInputs);
+    onAddColor(dataObject);
   }
 
   return (
@@ -25,14 +35,31 @@ export default function ColorForm() {
 
       <div>
         <label htmlFor="hex">Hex </label>
-        <input type="text" name="hex" id="" placeholder="#123456" />
-        <input type="color" name="colorPicker" id="" />
+        <input
+          type="text"
+          name="hex"
+          id=""
+          placeholder="#123456"
+          value={hexValue}
+        />
+        <input type="color" name="hexPicker" id="" onChange={handleHexChange} />
       </div>
 
       <div>
-        <label htmlFor="colorPicker">Contrast Text </label>
-        <input type="text" name="colorPicker" id="" placeholder="#ffffff" />
-        <input type="color" name="colorPicker" id="" />
+        <label htmlFor="contrastText">Contrast Text </label>
+        <input
+          type="text"
+          name="contrastText"
+          id=""
+          placeholder="#ffsfff"
+          value={contrastTextValue}
+        />
+        <input
+          type="color"
+          name="contrastTextPicker"
+          id=""
+          onChange={handleContrastTextChange}
+        />
       </div>
       <button type="submit">Add Color</button>
     </form>

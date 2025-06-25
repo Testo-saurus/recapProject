@@ -1,6 +1,6 @@
 import Color from "../../Color";
 
-export default function ColorInput() {
+export default function ColorInput({ ColorInput }) {
   return (
     <>
       <h4>hskhjdfksdjh </h4>
