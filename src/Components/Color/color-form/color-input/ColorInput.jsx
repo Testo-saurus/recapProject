@@ -3,7 +3,7 @@ import Color from "../../Color";
 export default function ColorInput({ ColorInput }) {
   return (
     <>
-      <h4>hskhjdfksdjh </h4>
+      {/* <h4>hskhjdfksdjh </h4>
       <Color
         color={{
           id: "c1",
@@ -12,7 +12,7 @@ export default function ColorInput({ ColorInput }) {
           contrastText: "#FFFFFF",
         }}
       />
-      ;
+      ; */}
     </>
   );
 }

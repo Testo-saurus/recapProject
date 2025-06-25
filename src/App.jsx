@@ -24,6 +24,16 @@ function App() {
     console.log("Data in State :", colorInputs);
   }
 
+  function deleteColor(idToRemove) {
+    console.log("Delete button clicked", idToRemove);
+
+    setColorInputs(
+      colorInputs.filter((color) => {
+        return color.id !== idToRemove;
+      })
+    );
+  }
+
   return (
     <>
       <h1>Theme Creator</h1>
@@ -33,7 +43,7 @@ function App() {
       <ColorInput colorInputs={colorInputs} />
 
       {colorInputs.map((color) => {
-        return <Color key={color.id} color={color} />;
+        return <Color key={color.id} color={color} onDelete={deleteColor} />;
       })}
     </>
   );
