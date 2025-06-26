@@ -3,11 +3,12 @@ import Color from "./Components/Color/Color";
 import "./App.css";
 import ColorForm from "./Components/Color/color-form/ColorForm";
 import { nanoid } from "nanoid";
-
-import { useState } from "react";
+import useLocalStorageState from "use-local-storage-state";
 
 function App() {
-  const [colorInputs, setColorInputs] = useState(initialColors);
+  const [colorInputs, setColorInputs] = useLocalStorageState("colors", {
+    defaultValue: initialColors,
+  });
 
   // add Color Section (to state)
   function addColorToState(colorObj) {
