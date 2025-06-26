@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function ColorForm({ onAddColor }) {
-  const [hexValue, setHexValue] = useState("");
+export default function ColorForm({ onAddColor, isEditOpen, colorToEdit }) {
+  const [hexValue, setHexValue] = useState(colorToEdit?.hex || "");
+  const [contrastTextValue, setContrastTextValue] = useState(
+    colorToEdit?.contrastText || ""
+  );
+  const [roleValue, setRoleValue] = useState(colorToEdit?.role || "");
 
-  const [contrastTextValue, setContrastTextValue] = useState("");
+  // Update form values when colorToEdit changes
+  useEffect(() => {
+    if (colorToEdit) {
+      setHexValue(colorToEdit.hex || "");
+      setContrastTextValue(colorToEdit.contrastText || "");
+      setRoleValue(colorToEdit.role || "");
+    }
+  }, [colorToEdit]);
 
   function handleContrastTextChange(e) {
     setContrastTextValue(e.target.value);
-
-    console.log(contrastTextValue);
   }
 
   function handleHexChange(e) {
     setHexValue(e.target.value);
+  }
 
-    console.log(hexValue);
+  function handleRoleChange(e) {
+    setRoleValue(e.target.value);
   }
 
   function handleSubmit(e) {
@@ -30,7 +41,14 @@ export default function ColorForm({ onAddColor }) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="role">Role </label>
-        <input type="text" name="role" id="" placeholder="some color" />
+        <input
+          type="text"
+          name="role"
+          id="role"
+          placeholder="some color"
+          value={roleValue}
+          onChange={handleRoleChange}
+        />
       </div>
 
       <div>
@@ -38,11 +56,18 @@ export default function ColorForm({ onAddColor }) {
         <input
           type="text"
           name="hex"
-          id=""
+          id="hex"
           placeholder="#123456"
           value={hexValue}
+          onChange={handleHexChange}
         />
-        <input type="color" name="hexPicker" id="" onChange={handleHexChange} />
+        <input
+          type="color"
+          name="hexPicker"
+          id="hexPicker"
+          value={hexValue}
+          onChange={handleHexChange}
+        />
       </div>
 
       <div>
@@ -50,18 +75,20 @@ export default function ColorForm({ onAddColor }) {
         <input
           type="text"
           name="contrastText"
-          id=""
-          placeholder="#ffsfff"
+          id="contrastText"
+          placeholder="#ffffff"
           value={contrastTextValue}
+          onChange={handleContrastTextChange}
         />
         <input
           type="color"
           name="contrastTextPicker"
-          id=""
+          id="contrastTextPicker"
+          value={contrastTextValue}
           onChange={handleContrastTextChange}
         />
       </div>
-      <button type="submit">Add Color</button>
+      <button type="submit">{isEditOpen ? "Update Color" : "Add Color"}</button>
     </form>
   );
 }

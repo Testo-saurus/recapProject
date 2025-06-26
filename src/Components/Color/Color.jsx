@@ -1,6 +1,10 @@
+import { useState } from "react";
 import "./Color.css";
+import EditColorForm from "../edit-color-form/EditColorForm";
 
-export default function Color({ color, onDelete }) {
+export default function Color({ color, onDelete, onUpdate }) {
+  const [isEditOpen, setEditOpen] = useState(false);
+
   return (
     <div
       className="color-card"
@@ -18,9 +22,32 @@ export default function Color({ color, onDelete }) {
           onDelete(color.id);
         }}
       >
-        {" "}
-        Delete{" "}
+        Delete
       </button>
+
+      <button
+        onClick={() => {
+          setEditOpen(!isEditOpen);
+          console.log(isEditOpen);
+        }}
+      >
+        Edit
+      </button>
+
+      {/* conditinally rendering of edit section */}
+
+      {isEditOpen ? (
+        <EditColorForm
+          onUpdate={(updatedColor) => {
+            onUpdate(updatedColor);
+            setEditOpen(false); // Close form after update
+          }}
+          isEditOpen={isEditOpen}
+          color={color}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
