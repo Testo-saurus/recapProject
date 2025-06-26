@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import MultiThemesForm from "../../multi-themes-form/MultiThemesForm";
+
 export default function ColorForm({ onAddColor, isEditOpen, colorToEdit }) {
   const [hexValue, setHexValue] = useState(colorToEdit?.hex || "");
   const [contrastTextValue, setContrastTextValue] = useState(
@@ -39,57 +41,63 @@ export default function ColorForm({ onAddColor, isEditOpen, colorToEdit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="role">Role </label>
-        <input
-          type="text"
-          name="role"
-          id="role"
-          placeholder="some color"
-          value={roleValue}
-          onChange={handleRoleChange}
-        />
-      </div>
+    <>
+      <MultiThemesForm />
 
-      <div>
-        <label htmlFor="hex">Hex </label>
-        <input
-          type="text"
-          name="hex"
-          id="hex"
-          placeholder="#123456"
-          value={hexValue}
-          onChange={handleHexChange}
-        />
-        <input
-          type="color"
-          name="hexPicker"
-          id="hexPicker"
-          value={hexValue}
-          onChange={handleHexChange}
-        />
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="role">Role </label>
+          <input
+            type="text"
+            name="role"
+            id="role"
+            placeholder="some color"
+            value={roleValue}
+            onChange={handleRoleChange}
+          />
+        </div>
 
-      <div>
-        <label htmlFor="contrastText">Contrast Text </label>
-        <input
-          type="text"
-          name="contrastText"
-          id="contrastText"
-          placeholder="#ffffff"
-          value={contrastTextValue}
-          onChange={handleContrastTextChange}
-        />
-        <input
-          type="color"
-          name="contrastTextPicker"
-          id="contrastTextPicker"
-          value={contrastTextValue}
-          onChange={handleContrastTextChange}
-        />
-      </div>
-      <button type="submit">{isEditOpen ? "Update Color" : "Add Color"}</button>
-    </form>
+        <div>
+          <label htmlFor="hex">Hex </label>
+          <input
+            type="text"
+            name="hex"
+            id="hex"
+            placeholder="#123456"
+            value={hexValue}
+            onChange={handleHexChange}
+          />
+          <input
+            type="color"
+            name="hexPicker"
+            id="hexPicker"
+            value={hexValue}
+            onChange={handleHexChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="contrastText">Contrast Text </label>
+          <input
+            type="text"
+            name="contrastText"
+            id="contrastText"
+            placeholder="#ffffff"
+            value={contrastTextValue}
+            onChange={handleContrastTextChange}
+          />
+          <input
+            type="color"
+            name="contrastTextPicker"
+            id="contrastTextPicker"
+            value={contrastTextValue}
+            onChange={handleContrastTextChange}
+          />
+        </div>
+        <button type="submit">
+          {isEditOpen ? "Update Color" : "Add Color"}
+        </button>
+      </form>
+    </>
   );
 }
