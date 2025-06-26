@@ -10,17 +10,43 @@ function App() {
     defaultValue: initialColors,
   });
 
+  // Api call to check if contrast is ok
+
+  async function checkColorContrast(hexColor1, hexColor2) {
+    const response = await fetch(
+      "https://www.aremycolorsaccessible.com/api/are-they",
+      {
+        method: "POST",
+        body: JSON.stringify({ colors: [hexColor1, hexColor2] }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log("API response:", data);
+    return data;
+  }
+
   // add Color Section (to state)
-  function addColorToState(colorObj) {
+  async function addColorToState(colorObj) {
+    // Check contrast with the API and save result in contrastData Object
+    const contrastData = await checkColorContrast(
+      colorObj.hex,
+      colorObj.contrastText
+    );
+
     //add unique id
-    const colorWithId = {
+    const colorWithIdandContrast = {
       id: nanoid(),
       ...colorObj,
+      overallContrastScore: contrastData.overall,
     };
 
-    console.log("Data:", colorWithId);
+    console.log("Data:", colorWithIdandContrast);
 
-    setColorInputs((prev) => [colorWithId, ...prev]);
+    setColorInputs((prev) => [colorWithIdandContrast, ...prev]);
 
     console.log("Data in State :", colorInputs);
   }

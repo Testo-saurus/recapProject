@@ -17,6 +17,11 @@ export default function Color({ color, onDelete, onUpdate }) {
       <h4>{color.role}</h4>
       <p>contrast: {color.contrastText}</p>
 
+      <p>
+        Overall Contrast Score:{" "}
+        {color.overallContrastScore ? color.overallContrastScore : "n/a"}
+      </p>
+
       <button
         onClick={() => {
           onDelete(color.id);
