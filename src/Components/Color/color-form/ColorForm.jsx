@@ -8,6 +8,7 @@ export default function ColorForm({ onAddColor, isEditOpen, colorToEdit }) {
   const [roleValue, setRoleValue] = useState(colorToEdit?.role || "");
 
   // Update form values when colorToEdit changes
+  // why useEffect? Without this useEffect, if you tried to edit multiple colors in sequence, the form would not properly update to display each new color's properties.
   useEffect(() => {
     if (colorToEdit) {
       setHexValue(colorToEdit.hex || "");
