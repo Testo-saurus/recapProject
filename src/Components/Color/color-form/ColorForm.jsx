@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 
 import MultiThemesForm from "../../multi-themes-form/MultiThemesForm";
 
-export default function ColorForm({ onAddColor, isEditOpen, colorToEdit }) {
+export default function ColorForm({
+  onAddColor,
+  isEditOpen,
+  colorToEdit,
+  onChangeTheme,
+  themesArr,
+}) {
   const [hexValue, setHexValue] = useState(colorToEdit?.hex || "");
   const [contrastTextValue, setContrastTextValue] = useState(
     colorToEdit?.contrastText || ""
@@ -42,7 +48,7 @@ export default function ColorForm({ onAddColor, isEditOpen, colorToEdit }) {
 
   return (
     <>
-      <MultiThemesForm />
+      <MultiThemesForm onChangeTheme={onChangeTheme} themesArr={themesArr} />
 
       <form onSubmit={handleSubmit}>
         <div>
