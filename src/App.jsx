@@ -4,11 +4,57 @@ import "./App.css";
 import ColorForm from "./Components/Color/color-form/ColorForm";
 import { nanoid } from "nanoid";
 import useLocalStorageState from "use-local-storage-state";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
   const [colorInputs, setColorInputs] = useLocalStorageState("colors", {
     defaultValue: initialColors,
   });
+
+  const initalThemesArr = [
+    {
+      name: "Default1",
+      id: "d1",
+      colors: initialColors,
+    },
+    {
+      name: "Default2",
+      id: "d2",
+      colors: initialColors,
+    },
+  ];
+
+  const [themesArr, setThemesArr] = useState(initalThemesArr);
+
+  // state for active Theme
+  const [activeThemeId, setActiveThemeId] = useState("d1");
+
+  // grab ThemeID and update colors
+  function handleThemeSelection(e) {
+    const selectedThemeId = e.target.value;
+    setActiveThemeId(selectedThemeId);
+
+    // Find the selected theme and update colorInputs to match that theme's colors
+    const selectedTheme = themesArr.find(
+      (theme) => theme.id === selectedThemeId
+    );
+    if (selectedTheme) {
+      setColorInputs(selectedTheme.colors);
+    }
+
+    console.log("Selected theme ID:", selectedThemeId);
+  }
+
+  // Update a theme's colors when colorInputs changes
+  useEffect(() => {
+    // Update the active theme's colors when colorInputs changes
+    setThemesArr((prevThemes) =>
+      prevThemes.map((theme) =>
+        theme.id === activeThemeId ? { ...theme, colors: colorInputs } : theme
+      )
+    );
+  }, [colorInputs, activeThemeId]);
 
   // Api call to check if contrast is ok
 
@@ -79,18 +125,21 @@ function App() {
     <>
       <h1>Theme Creator</h1>
 
-      <ColorForm onAddColor={addColorToState} />
+      <ColorForm
+        onAddColor={addColorToState}
+        onChangeTheme={handleThemeSelection}
+        themesArr={themesArr}
+      />
 
-      {colorInputs.map((color) => {
-        return (
-          <Color
-            key={color.id}
-            color={color}
-            onDelete={deleteColor}
-            onUpdate={updateColor}
-          />
-        );
-      })}
+      {/* Use colorInputs directly since we're syncing it with the active theme */}
+      {colorInputs.map((color) => (
+        <Color
+          key={color.id}
+          color={color}
+          onDelete={deleteColor}
+          onUpdate={updateColor}
+        />
+      ))}
     </>
   );
 }
